@@ -84,4 +84,4 @@ class FileStorage:
         if not cls:
             return len(self.all())
 
-        return len(slef.all(cls))
+        return len(self.all(cls))
