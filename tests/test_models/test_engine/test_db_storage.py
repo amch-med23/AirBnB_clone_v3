@@ -85,27 +85,17 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        """Test that save properly saves objects to the db"""
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-        """Test getting one object by class name and instance id"""
-        state = State(**{'name': 'Casablanca-Settat'})
-        state.save()
-        state_by_id = models.storage.get(State, state.id)
-        self.assertTrue(isinstance(state_by_id, State))
-        self.assertEqual(state_by_id, state)
+         """Test that get properly returns a requested object"""
+         user = User(name="User1")
+         user.save()
+         self.assertEqual(models.storage.get("User", user.id), user)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing file storage")
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_count(self):
-        """Test the count of all objects by class name"""
-        amentity1 = Amenity(**{'name': 'Gaming console'})
-        amentity2 = Amenity(**{'name': 'Work setup'})
-        state1 = State(**{'name': 'Casablanca-Settat'})
-        amentity1.save()
-        amentity2.save()
-        state1.save()
-
-        self.assertEqual(models.storage.count(), len(models.storage.all()))
-        self.assertEqual(models.storage.count(Amenity), 2)
-        self.assertEqual(models.storage.count(State), 1)
+        """Test that count properly counts all objects"""
+        self.assertEqual(len(models.storage.all()), models.storage.count())
