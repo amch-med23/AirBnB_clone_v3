@@ -70,6 +70,7 @@ test_file_storage.py'])
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
@@ -114,14 +115,33 @@ class TestFileStorage(unittest.TestCase):
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
-        """Test that get properly returns a requested object"""
-        user = User(name="User1")
-        user.save()
-        self.assertEqual(models.storage.get("User", user.id), user)
+        """Test getting one object by class name and instance id"""
+        storage = FileStorage()
+        state = State(**{'name': 'Tanger'})
+        state.save()
+        state_by_id = storage.get(State, state.id)
+        self.assertEqual(type(state_by_id), State)
+        self.assertEqual(state_by_id, state)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
-        """Test that count properly counts all objects"""
-         self.assertEqual(len(models.storage.all()), models.storage.count())
+        """Test the count of all objects by class name"""
+        storage = FileStorage()
+        storage.__objects = {}
+        storage.save()
+
+        amentity1 = Amenity(**{'name': 'Gaming console'})
+        amentity2 = Amenity(**{'name': 'Work setup'})
+        state1 = State(**{'name': 'Casablanca-Settat'})
+        amentity1.save()
+        amentity2.save()
+        state1.save()
+
+        objs = storage.all().values()
+        amenities = [v for v in objs if v.__class__.__name__ == 'Amenity']
+        states = [v for v in objs if v.__class__.__name__ == 'State']
+        self.assertEqual(storage.count(), len(storage.all()))
+        self.assertEqual(storage.count(Amenity), len(amenities))
+        self.assertEqual(storage.count(State), len(states))
