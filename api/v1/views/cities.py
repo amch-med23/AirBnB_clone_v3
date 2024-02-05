@@ -19,6 +19,7 @@ def get_cities(state_id):
     list_cities = [obj.to_dict() for obj in state.cities]
     return jsonify(list_cities)
 
+
 @app_views.route('/cities/<string:city_id>', methods=['GET'],
                  strict_slashes=False)
 @swag_from('docs/city/get_id.yml', methods=['GET'])

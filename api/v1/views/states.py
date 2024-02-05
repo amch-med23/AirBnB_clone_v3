@@ -6,6 +6,7 @@ from models import storage
 from models.state import State
 from flasgger.utils import swag_from
 
+
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 @swag_from('docs/state/get.yml', methods=['GET'])
 def get_all():
@@ -26,7 +27,7 @@ def get_method_state(state_id):
 
 
 @app_views.route('/states/<string:state_id>', methods=['DELETE'],
-                strict_slashes=False)
+                 strict_slashes=False)
 @swag_from('docs/state/delete.yml', methods=['DELETE'])
 def del_method(state_id):
     """Delets a state by ID"""
@@ -39,7 +40,7 @@ def del_method(state_id):
 
 
 @app_views.route('/states', methods=['POST'],
-                strict_slashes=False)
+                 strict_slashes=False)
 @swag_from('docs/state/post.yml', methods=['POST'])
 def create_obj():
     """creates a new instance of state object"""
@@ -54,7 +55,7 @@ def create_obj():
 
 
 @app_views.route('/states/<string:state_id>', methods=['PUT'],
-                strict_slashes=False)
+                 strict_slashes=False)
 @swag_from('docs/state/put.yml', methods=['PUT'])
 def post_method(state_id):
     """Updates the specified state"""

@@ -56,7 +56,7 @@ def create_amenity():
 
 
 @app_views.route('/amenities/<string:amenity_id>', methods=['PUT'],
-           strict_slashes=False)
+                 strict_slashes=False)
 @swag_from('docs/amenity/put.yml', methods=['PUT'])
 def post_amenity(amenity_id):
     """Updates the amenity by it's ID"""
