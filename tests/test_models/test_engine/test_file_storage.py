@@ -119,7 +119,7 @@ class TestFileStorage(unittest.TestCase):
     def test_get(self):
         """Test getting one object by class name and instance id"""
         storage = FileStorage()
-        state = State(**{'name': 'Tanger'})
+        state = State(**{'name': 'NewYork'})
         state.save()
         state_by_id = storage.get(State, state.id)
         self.assertEqual(type(state_by_id), State)
@@ -132,11 +132,13 @@ class TestFileStorage(unittest.TestCase):
         storage.__objects = {}
         storage.save()
 
-        amentity1 = Amenity(**{'name': 'Gaming console'})
-        amentity2 = Amenity(**{'name': 'Work setup'})
-        state1 = State(**{'name': 'Casablanca-Settat'})
+        amentity1 = Amenity(**{'name': 'TV'})
+        amentity2 = Amenity(**{'name': 'Upper Bed'})
+        amentity3 = Amenity(**{'name': 'Dog and Cat tables'})
+        state1 = State(**{'name': 'Chicago'})
         amentity1.save()
         amentity2.save()
+        amentity3.save()
         state1.save()
 
         objs = storage.all().values()
